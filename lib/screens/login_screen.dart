@@ -1,5 +1,8 @@
+import 'package:cuc_marca_app/services/user_service.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../providers/user_provider.dart';
 import '../widgets/widgets.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -124,7 +127,12 @@ class _LoginButton extends StatelessWidget {
         )
       ),
       // onPressed: ( !userProvider.isLogin ) ? () => login( context ): null,
-      onPressed: () {},
+      onPressed: () async {
+          final userProvider = Provider.of<UserProvider>(context, listen: false);
+          await UserServices.login(context);
+
+          print(userProvider.token);
+      }
     );
   }
 
