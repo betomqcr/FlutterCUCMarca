@@ -5,83 +5,97 @@ import '../widgets/widgets.dart';
 
 class HomeScreen extends StatelessWidget {
 
+  final List<String> nameList = <String>[
+    "A123456789",
+    "B123456789",
+    "C123456789",
+    "D123456789",
+    "E123456789",
+    "F123456789",
+    "G123456789",
+    "H123456789"
+  ];
+ 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text("Bienvenido"),
+        centerTitle: true,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.highlight_off_outlined),
+            onPressed: () {
+              
+            },
+          )
+        ],
+      ),
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child: Column(
           children: [
       
-            Stack(
-              children: [
-      
-                Container(
-                  height: 110,
-                  width: double.infinity,
-                  color: Colors.blue,
-                ),
-      
-                Container(
-                  margin: const EdgeInsets.symmetric(vertical: 40, horizontal: 25),
-                  padding: const EdgeInsets.only(left: 50),
-                  width: 350,
-                  child: const Text(
-                    'Bienvenido', 
-                    style: TextStyle(
-                      color: Colors.white, 
-                      fontSize: 40,
-                      fontWeight: FontWeight.bold
-                    )
-                  )
-                ),             
-      
-              ],
-            ),
-            
             Container(
               width: double.infinity,
-              margin: const EdgeInsets.only(top: 10, left: 25, right: 25),
+              margin: const EdgeInsets.only(top: 20, left: 25, right: 25),
               child: Column(
-                children: const [
+                children: [
       
-                  InputTitleCustom(text: 'Codigo Funcionario'),
-                  SizedBox(height: 10),
-                  CustomInput(
-                    hintText: 'Codigo',
-                    helpText: '', 
-                    icon: Icons.looks_one, 
-                    // controller: _emailController
+                  const InputTitleCustom(text: 'Codigo Funcionario'),
+                  const SizedBox(height: 10),
+                  Container(
+                    child: DropdownButton(  
+                      value: 'A123456789',
+                      items: nameList.map(
+                        (item) {
+                          return DropdownMenuItem(
+                            value: item,
+                            child: Text(item),
+                          );
+                        },
+                      ).toList(),
+                      onChanged: (opt) {}
+                    ),
                   ),
+                 
       
-                  // SizedBox(height: 5),
+                  const SizedBox(height: 10),
       
-                  InputTitleCustom(text: 'Actividad'),
-                  SizedBox(height: 10),
-                  CustomInput(
+                  const InputTitleCustom(text: 'Actividad'),
+                  const SizedBox(height: 10),
+                  const CustomInput(
                     hintText: 'Actividad',
                     helpText: '', 
-                    icon: Icons.looks_one, 
+                    icon: Icons.task
                     // controller: _emailController
                   ),
       
                   // SizedBox(height: 5),
       
-                  InputTitleCustom(text: 'Comentarios'),
-                  SizedBox(height: 10),
-                  CustomInput(
-                    hintText: 'Comentarios',
-                    helpText: '', 
-                    icon: Icons.looks_one, 
-                    // controller: _emailController
+                  const InputTitleCustom(text: 'Comentarios'),
+                  // const SizedBox(height: 10),
+                  Container(
+                    margin: const EdgeInsets.all(12),
+                    height: 6 * 24.0,
+                    child: TextField(
+                      maxLines: 6,
+                      decoration: InputDecoration(
+                        hintText: "Ingrese un comentario",
+                        fillColor: Colors.grey[300],
+                        filled: true,
+                      ),
+                    ),
                   ),
       
-                  CustomSingleButton(
+                  const CustomSingleButton(
                     title: 'Entrada', 
+                    isEntrada: true,
                     // onPressed: () {}
                   ),
       
-                  CustomSingleButton(
+                  const CustomSingleButton(
                     title: 'Salida', 
                     // onPressed: () {}
                   ),
@@ -96,3 +110,15 @@ class HomeScreen extends StatelessWidget {
    );
   }
 }
+
+List<DropdownMenuItem<String>> getOpcionesDropdowm() {
+
+    List<DropdownMenuItem<String>> lista =[];
+ 
+    lista.add( const DropdownMenuItem( 
+      child: Text('Codigo'),
+      value: 'Codigo',
+    ));
+
+    return lista;
+  }

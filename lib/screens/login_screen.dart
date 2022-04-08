@@ -67,7 +67,7 @@ class LoginScreen extends StatelessWidget {
 
                       SizedBox(height: 15),
 
-                      CustomSingleButton(
+                      CustomButtonNormal(
                         title: 'Olvido contraseña?', 
                         // onPressed: () {}
                       ),
