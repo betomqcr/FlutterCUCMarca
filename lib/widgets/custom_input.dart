@@ -5,7 +5,7 @@ class CustomInput extends StatelessWidget {
   final String helpText;
   final String? hintText;
   final IconData icon;
-  // final TextEditingController? controller;
+  final TextEditingController? controller;
   final bool? enable;
   final bool? isPassword;
   
@@ -13,7 +13,7 @@ class CustomInput extends StatelessWidget {
     Key? key, 
     required this.helpText, 
     required this.icon, 
-    // this.controller,
+    this.controller,
     this.enable = true,
     this.hintText = '',
     this.isPassword = false
@@ -24,7 +24,7 @@ class CustomInput extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.only(left: 20, right: 20),
       child: TextField(  
-        // controller: this.controller,
+        controller: controller,
         textCapitalization: TextCapitalization.sentences,
         autofocus: false,
         cursorColor: Colors.red.shade300,
