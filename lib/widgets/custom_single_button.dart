@@ -4,13 +4,15 @@ class CustomSingleButton extends StatelessWidget {
 
   final String title;
   final bool? isEntrada;
-  // final Function onPressed;
+  final TextEditingController actividad;
+  final TextEditingController comentarios;
 
   const CustomSingleButton({
     Key? key, 
     required this.title, 
+    required this.actividad,
+    required this.comentarios,
     this.isEntrada = false,
-    // required this.onPressed,
   }) : super(key: key);
 
   @override
@@ -46,7 +48,105 @@ class CustomSingleButton extends StatelessWidget {
         )
          
       ),
-      onPressed: () {}
+      onPressed: () {
+
+        if(isEntrada == true) {
+          marcaEntrada(context, actividad, comentarios);
+        } else {
+          marcaSalida(context, actividad, comentarios);
+        }
+
+      }
     );
   }
+}
+
+void marcaEntrada(BuildContext context, TextEditingController actividad, TextEditingController comentarios) async {
+
+  final marcaProvider = Provider.of<MarcaProvider>(context, listen: false);
+  final userProvider = Provider.of<UserProvider>(context, listen: false);
+
+  marcaProvider.isLoading = true;
+  
+  final user = Marca(
+    codigoFuncionario:userProvider.user.identificacion,
+    areaId: marcaProvider.areaSelected.id,
+    tipoMarca: 'E',
+    actividad: actividad.text,
+    comentarios: comentarios.text,
+    contrasena: userProvider.user.contrasea,
+    direccionIp: '',
+    latitud: 0,
+    longitud: 0,
+  );
+  final resp = await MarcaServices.marcar(user, context);
+
+  if ( resp ) {
+
+     showAlert(
+      context  : context, 
+      title    : 'Marca Entrada', 
+      subTitle : 'Su marca ha sido registrada', 
+      status   : StatusAlert.Success,
+      pageOk   : 'home',
+    );
+
+  } else {
+
+    showAlert(
+      context    : context, 
+      title      : 'Marca Entrada', 
+      subTitle   : 'Error: Por favor revise los campos e intente nuevamente', 
+      status     : StatusAlert.Error,
+      pageCancel : 'home',
+    );
+
+  }
+
+  marcaProvider.isLoading = false;
+}
+
+void marcaSalida(BuildContext context, TextEditingController actividad, TextEditingController comentarios) async {
+
+  final marcaProvider = Provider.of<MarcaProvider>(context, listen: false);
+  final userProvider = Provider.of<UserProvider>(context, listen: false);
+
+  marcaProvider.isLoading = true;
+  
+  final user = Marca(
+    codigoFuncionario:userProvider.user.identificacion,
+    areaId: marcaProvider.areaSelected.id,
+    tipoMarca: 'S',
+    actividad: actividad.text,
+    comentarios: comentarios.text,
+    contrasena: userProvider.user.contrasea,
+    direccionIp: '',
+    latitud: 0,
+    longitud: 0,
+  );
+  final resp = await MarcaServices.marcar(user, context);
+
+  if ( resp ) {
+
+    showAlert(
+      context  : context, 
+      title    : 'Marca Salida', 
+      subTitle : 'Su marca ha sido registrada', 
+      status   : StatusAlert.Success,
+      pageOk   : 'home',
+    );
+
+  } else {
+
+    showAlert(
+      context    : context, 
+      title      : 'Marca Salida', 
+      subTitle   : 'Error: Por favor revise los campos e intente nuevamente', 
+      status     : StatusAlert.Error,
+      pageCancel : 'home',
+    );
+
+  }
+
+  marcaProvider.isLoading = false;
 }

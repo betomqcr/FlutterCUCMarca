@@ -1,8 +1,8 @@
-import 'package:cuc_marca_app/providers/user_provider.dart';
 import 'package:flutter/material.dart';
-
-import 'package:cuc_marca_app/routes/routes.dart';
 import 'package:provider/provider.dart';
+
+import 'providers/providers.dart';
+import 'package:cuc_marca_app/routes/routes.dart';
 
 void main() => runApp(MyApp());
 
@@ -15,6 +15,10 @@ class MyApp extends StatelessWidget {
 
         ChangeNotifierProvider(
           create: ( _ ) => UserProvider(),
+        ),
+
+        ChangeNotifierProvider(
+          create: ( _ ) => MarcaProvider(),
         ),
 
       ],

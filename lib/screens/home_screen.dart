@@ -1,33 +1,34 @@
-import 'package:flutter/material.dart';
 
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../providers/providers.dart';
 import '../widgets/widgets.dart';
+import 'package:cuc_marca_app/models/models.dart';
 
 
 class HomeScreen extends StatelessWidget {
 
-  final List<String> nameList = <String>[
-    "A123456789",
-    "B123456789",
-    "C123456789",
-    "D123456789",
-    "E123456789",
-    "F123456789",
-    "G123456789",
-    "H123456789"
-  ];
- 
+  final TextEditingController _actividadController = new TextEditingController();
+  final TextEditingController _comentariosController = new TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+
+    final userProvider = Provider.of<UserProvider>(context);
+    final marcaProvider = Provider.of<MarcaProvider>(context);
+
+    final areas = marcaProvider.areas;
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Bienvenido"),
+        title: Text('Bienvenido ${userProvider.user.identificacion}'),
         centerTitle: true,
         actions: [
           IconButton(
             icon: const Icon(Icons.highlight_off_outlined),
             onPressed: () {
-              
+              Navigator.pushNamed(context, 'login');
             },
           )
         ],
@@ -43,33 +44,35 @@ class HomeScreen extends StatelessWidget {
               child: Column(
                 children: [
       
-                  const InputTitleCustom(text: 'Codigo Funcionario'),
+                  const InputTitleCustom(text: 'Codigo Area'),
                   const SizedBox(height: 10),
                   Container(
                     child: DropdownButton(  
-                      value: 'A123456789',
-                      items: nameList.map(
+                      value: areas[0].nombreArea,
+                      items: areas.map(
                         (item) {
                           return DropdownMenuItem(
-                            value: item,
-                            child: Text(item),
+                            value: item.nombreArea,
+                            child: Text(item.nombreArea ?? 'No Area'),
                           );
                         },
                       ).toList(),
-                      onChanged: (opt) {}
+                      onChanged: (opt) {
+                        final marcaProvider = Provider.of<MarcaProvider>(context, listen: false);
+                        marcaProvider.areaSelected = findArea(opt.toString(), areas);
+                      }
                     ),
                   ),
                  
-      
                   const SizedBox(height: 10),
       
                   const InputTitleCustom(text: 'Actividad'),
                   const SizedBox(height: 10),
-                  const CustomInput(
+                  CustomInput(
                     hintText: 'Actividad',
                     helpText: '', 
-                    icon: Icons.task
-                    // controller: _emailController
+                    icon: Icons.task,
+                    controller: _actividadController
                   ),
       
                   // SizedBox(height: 5),
@@ -80,6 +83,7 @@ class HomeScreen extends StatelessWidget {
                     margin: const EdgeInsets.all(12),
                     height: 6 * 24.0,
                     child: TextField(
+                      controller: _comentariosController,
                       maxLines: 6,
                       decoration: InputDecoration(
                         hintText: "Ingrese un comentario",
@@ -89,15 +93,17 @@ class HomeScreen extends StatelessWidget {
                     ),
                   ),
       
-                  const CustomSingleButton(
+                  CustomSingleButton(
                     title: 'Entrada', 
                     isEntrada: true,
-                    // onPressed: () {}
+                    actividad: _actividadController,
+                    comentarios: _comentariosController,
                   ),
       
-                  const CustomSingleButton(
+                  CustomSingleButton(
                     title: 'Salida', 
-                    // onPressed: () {}
+                    actividad: _actividadController,
+                    comentarios: _comentariosController,
                   ),
                 ],
               ),
@@ -111,14 +117,13 @@ class HomeScreen extends StatelessWidget {
   }
 }
 
-List<DropdownMenuItem<String>> getOpcionesDropdowm() {
+Area findArea(String namearea, List<Area> areas) {
 
-    List<DropdownMenuItem<String>> lista =[];
- 
-    lista.add( const DropdownMenuItem( 
-      child: Text('Codigo'),
-      value: 'Codigo',
-    ));
-
-    return lista;
+  for (Area area in areas) {
+    if (area.nombreArea == namearea) {
+      return area;
+    }
   }
+
+  return Area.empty();
+}

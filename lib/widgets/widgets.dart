@@ -1,4 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../helpers/showAlert.dart';
+import '../models/models.dart';
+import '../providers/providers.dart';
+import '../services/services.dart';
 
 part 'custom_input.dart';
 part 'custom_single_button.dart';
