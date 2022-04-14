@@ -28,7 +28,7 @@ class HomeScreen extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.highlight_off_outlined),
             onPressed: () {
-              Navigator.pushNamed(context, 'login');
+              Navigator.pushReplacementNamed(context, 'login');
             },
           )
         ],
@@ -48,7 +48,7 @@ class HomeScreen extends StatelessWidget {
                   const SizedBox(height: 10),
                   Container(
                     child: DropdownButton(  
-                      value: areas[0].nombreArea,
+                      value: marcaProvider.areaSelected.nombreArea ?? areas[0].nombreArea,
                       items: areas.map(
                         (item) {
                           return DropdownMenuItem(

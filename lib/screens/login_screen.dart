@@ -133,6 +133,17 @@ class _LoginButton extends StatelessWidget {
         )
       ),
       onPressed: () async {
+
+          if(identificacion.text.isEmpty || pass.text.isEmpty) {
+            showAlert(
+              context: context, 
+              title: 'Error', 
+              subTitle: 'Debe ingresar una identificacion y una contraseña', 
+              status: StatusAlert.Error,
+              isValidation: true,
+            );
+            return;
+          }
           
           final userProvider = Provider.of<UserProvider>(context, listen: false);
           userProvider.isLogin = true;
@@ -153,6 +164,7 @@ class _LoginButton extends StatelessWidget {
               title    : 'Error', 
               subTitle : 'Credenciales incorrectas', 
               status   : StatusAlert.Error,
+              isLogin  : true
             );
 
           }

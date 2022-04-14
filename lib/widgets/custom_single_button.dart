@@ -66,6 +66,17 @@ void marcaEntrada(BuildContext context, TextEditingController actividad, TextEdi
   final marcaProvider = Provider.of<MarcaProvider>(context, listen: false);
   final userProvider = Provider.of<UserProvider>(context, listen: false);
 
+  if(comentarios.text.isEmpty || actividad.text.isEmpty || marcaProvider.areaSelected.id == null) {
+    showAlert(
+      context: context, 
+      title: 'Error', 
+      subTitle: 'Debe ingresar una area, actividad y un comentario', 
+      status: StatusAlert.Error,
+      isValidation: true,
+    );
+    return;
+  }
+
   marcaProvider.isLoading = true;
   
   final user = Marca(
@@ -83,7 +94,10 @@ void marcaEntrada(BuildContext context, TextEditingController actividad, TextEdi
 
   if ( resp ) {
 
-     showAlert(
+    actividad.text = '';
+    comentarios.text = '';
+
+    showAlert(
       context  : context, 
       title    : 'Marca Entrada', 
       subTitle : 'Su marca ha sido registrada', 
@@ -108,6 +122,16 @@ void marcaEntrada(BuildContext context, TextEditingController actividad, TextEdi
 
 void marcaSalida(BuildContext context, TextEditingController actividad, TextEditingController comentarios) async {
 
+  if(comentarios.text.isEmpty || actividad.text.isEmpty) {
+    showAlert(
+      context: context, 
+      title: 'Error', 
+      subTitle: 'Debe ingresar una actividad y un comentario', 
+      status: StatusAlert.Error
+    );
+    return;
+  }
+
   final marcaProvider = Provider.of<MarcaProvider>(context, listen: false);
   final userProvider = Provider.of<UserProvider>(context, listen: false);
 
@@ -127,6 +151,9 @@ void marcaSalida(BuildContext context, TextEditingController actividad, TextEdit
   final resp = await MarcaServices.marcar(user, context);
 
   if ( resp ) {
+
+    actividad.text = '';
+    comentarios.text = '';
 
     showAlert(
       context  : context, 

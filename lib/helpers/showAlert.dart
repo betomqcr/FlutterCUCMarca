@@ -16,6 +16,8 @@ showAlert({
   required StatusAlert status,
   String? pageOk,
   String? pageCancel,
+  bool? isValidation,
+  bool? isLogin,
 }) {
 
   Color color;
@@ -43,10 +45,28 @@ showAlert({
             elevation: 5,
             textColor: Colors.blue,
             onPressed: () {
+
+              if(isValidation == true) {
+                Navigator.of(context).pop();  
+                return;
+              }
+
+              if(isLogin == true) {
+                if(status == StatusAlert.Success){
+                  Navigator.pushNamed(context, 'home');
+                  return;
+                } else {
+                  Navigator.of(context).pop();
+                  return;
+                }
+              }
+
               if(status == StatusAlert.Success){
-                Navigator.pushNamed(context, pageOk ?? 'home');
+                Navigator.of(context).pop();
+                return;
               } else {
-                Navigator.pushNamed(context, pageCancel ?? 'home');
+                Navigator.of(context).pop();
+                return;
               }
             },
           )
