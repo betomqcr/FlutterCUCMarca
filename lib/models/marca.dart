@@ -5,29 +5,29 @@ Marca marcaFromJson(String str) => Marca.fromJson(json.decode(str));
 String marcaToJson(Marca data) => json.encode(data.toJson());
 
 class Marca {
-    Marca({
-        this.codigoFuncionario,
-        this.areaId,
-        this.tipoMarca,
-        this.actividad,
-        this.comentarios,
-        this.contrasena,
-        this.direccionIp,
-        this.latitud,
-        this.longitud,
-    });
+  Marca({
+    this.codigoFuncionario,
+    this.areaId,
+    this.tipoMarca,
+    this.actividad,
+    this.comentarios,
+    this.contrasena,
+    this.direccionIp,
+    this.latitud,
+    this.longitud,
+  });
 
-    String? codigoFuncionario;
-    int? areaId;
-    String? tipoMarca;
-    String? actividad;
-    String? comentarios;
-    String? contrasena;
-    String? direccionIp;
-    int? latitud;
-    int? longitud;
+  String? codigoFuncionario;
+  int? areaId;
+  String? tipoMarca;
+  String? actividad;
+  String? comentarios;
+  String? contrasena;
+  String? direccionIp;
+  String? latitud;
+  String? longitud;
 
-    factory Marca.fromJson(Map<String, dynamic> json) => Marca(
+  factory Marca.fromJson(Map<String, dynamic> json) => Marca(
         codigoFuncionario: json["CodigoFuncionario"],
         areaId: json["AreaID"],
         tipoMarca: json["TipoMarca"],
@@ -37,9 +37,9 @@ class Marca {
         direccionIp: json["DireccionIP"],
         latitud: json["Latitud"],
         longitud: json["Longitud"],
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "CodigoFuncionario": codigoFuncionario,
         "AreaID": areaId,
         "TipoMarca": tipoMarca,
@@ -49,5 +49,5 @@ class Marca {
         "DireccionIP": direccionIp,
         "Latitud": latitud,
         "Longitud": longitud,
-    };
+      };
 }
