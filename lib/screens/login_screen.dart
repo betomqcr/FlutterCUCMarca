@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:loading_overlay/loading_overlay.dart';
 import 'package:provider/provider.dart';
 import 'package:geolocator/geolocator.dart';
 import '../models/models.dart';
@@ -15,68 +16,73 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final userProvider = Provider.of<UserProvider>(context);
     return Scaffold(
-        body: Center(
-            child: SingleChildScrollView(
-      child: SafeArea(
-          child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          Stack(
-            children: [
-              Container(
-                height: 250,
-                width: double.infinity,
-                color: Colors.blue,
-              ),
-              Container(
-                  alignment: Alignment.center,
-                  padding: const EdgeInsets.only(left: 60, right: 60, top: 10),
-                  width: 350,
-                  child: const Image(
-                    image: AssetImage('assets/logo.jpeg'),
-                    height: 220,
-                    fit: BoxFit.cover,
-                  )),
-            ],
-          ),
-
-          // Body
-          Container(
-            width: double.infinity,
-            margin: const EdgeInsets.only(top: 50, left: 25, right: 25),
+        body: LoadingOverlay(
+      isLoading: userProvider.isLogin,
+      child: Center(
+          child: SingleChildScrollView(
+        child: SafeArea(
             child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            Stack(
               children: [
-                CustomInput(
-                    hintText: 'Identificacion',
-                    helpText: 'Ejemplo: 101110111',
-                    icon: Icons.looks_one,
-                    controller: _identificacionController),
-                const SizedBox(height: 15),
-                CustomInput(
-                  hintText: 'Contraseña',
-                  helpText: '',
-                  icon: Icons.password,
-                  controller: _passwordController,
-                  isPassword: true,
+                Container(
+                  height: 250,
+                  width: double.infinity,
+                  color: Colors.blue,
                 ),
-                _LoginButton(
-                  identificacion: _identificacionController,
-                  pass: _passwordController,
-                ),
-                const SizedBox(height: 15),
-                const CustomButtonNormal(
-                  title: 'Olvido contraseña?',
-                  // onPressed: () {}
-                ),
+                Container(
+                    alignment: Alignment.center,
+                    padding:
+                        const EdgeInsets.only(left: 60, right: 60, top: 10),
+                    width: 350,
+                    child: const Image(
+                      image: AssetImage('assets/logo.jpeg'),
+                      height: 220,
+                      fit: BoxFit.cover,
+                    )),
               ],
             ),
-            // color: Colors.red,
-          ),
-        ],
+
+            // Body
+            Container(
+              width: double.infinity,
+              margin: const EdgeInsets.only(top: 50, left: 25, right: 25),
+              child: Column(
+                children: [
+                  CustomInput(
+                      hintText: 'Identificacion',
+                      helpText: 'Ejemplo: 101110111',
+                      icon: Icons.looks_one,
+                      controller: _identificacionController),
+                  const SizedBox(height: 15),
+                  CustomInput(
+                    hintText: 'Contraseña',
+                    helpText: '',
+                    icon: Icons.password,
+                    controller: _passwordController,
+                    isPassword: true,
+                  ),
+                  _LoginButton(
+                    identificacion: _identificacionController,
+                    pass: _passwordController,
+                  ),
+                  const SizedBox(height: 15),
+                  const CustomButtonNormal(
+                    title: 'Olvido contraseña?',
+                    // onPressed: () {}
+                  ),
+                ],
+              ),
+              // color: Colors.red,
+            ),
+          ],
+        )),
       )),
-    )));
+    ));
   }
 }
 
